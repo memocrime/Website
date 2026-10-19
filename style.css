@@ -1,9 +1,91 @@
-body {
-  background-color: powderblue;
+:root {
+  --bg: #fff;
+  --fg: #000;
+  --pad: 24px;      /* edge spacing for fixed UI */
+  --nav-w: 260px;   /* left space reserved for the nav */
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;   /* swap in your design font here */
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;   /* and your terminal font here */
 }
-h1 {
-  color: blue;
+@media (max-width: 700px) { :root { --nav-w: 120px; } }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--fg); font: 15px/1.6 var(--font); }
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Fixed UI ---------- */
+#terminal, .name, #nav { position: fixed; z-index: 8; }
+
+#terminal {
+  top: 40px; left: var(--pad);          /* a little lower than the name */
+  width: 36ch; height: 72px;            /* fixed box so the scatter can avoid it */
+  font: 12px/18px var(--mono);
+  white-space: pre; overflow: hidden;
 }
-p {
-  color: red;
+.cursor {
+  display: inline-block; width: .55em; height: 1em; vertical-align: -2px;
+  background: currentColor; animation: blink 1s steps(1) infinite;
 }
+@keyframes blink { 50% { opacity: 0; } }
+
+.name { top: 24px; right: var(--pad); font-weight: 700; font-size: 15px; }
+
+#nav {
+  left: var(--pad); top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 56px;
+  font-size: 18px; font-weight: 600;
+}
+#nav a::before { content: "– "; }
+#nav a:hover, .name:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---------- Projects (scattered) ---------- */
+#projects { position: relative; height: 100vh; min-height: 560px; }
+.project { position: absolute; display: block; background: #000; overflow: hidden; cursor: pointer; }
+.project img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Fallback if the rectangles can't fit (tiny screens): plain stacked list */
+#projects.stack { height: auto; display: grid; gap: var(--pad); padding: 140px var(--pad) var(--pad) var(--nav-w); }
+#projects.stack .project { position: static; aspect-ratio: 2; }
+
+/* ---------- Other sections ---------- */
+.page { min-height: 100vh; padding: 140px 8vw 80px var(--nav-w); }
+.page h2 { font-size: 15px; margin-bottom: 24px; }
+.page p { max-width: 60ch; margin-bottom: 12px; }
+.page p a { text-decoration: underline; text-underline-offset: 3px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.grid img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+
+/* ---------- Hover preview ---------- */
+#veil {
+  position: fixed; inset: 0; z-index: 10; pointer-events: none;
+  background: rgba(255, 255, 255, .85);   /* higher alpha = more dimmed background */
+  opacity: 0; transition: opacity .2s;
+}
+#preview {
+  position: fixed; inset: 0; z-index: 11; pointer-events: none;
+  display: grid; place-items: center;
+  opacity: 0; transform: scale(.96); transition: opacity .2s, transform .2s;
+}
+#preview img {
+  display: block; background: #000; object-fit: cover;
+  aspect-ratio: var(--r, 2);
+  width: min(80vw, calc(80vh * var(--r, 2)));
+}
+body.previewing #veil { opacity: 1; }
+body.previewing #preview { opacity: 1; transform: none; }
+
+/* ---------- In-page project view ---------- */
+#project-view {
+  position: fixed; inset: 0; z-index: 6; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--bg); padding: 140px 8vw 80px var(--nav-w);
+}
+#project-view > * { max-width: 900px; }
+#project-view h1 { font-size: 28px; line-height: 1.2; margin: 16px 0 4px; }
+#project-view img { display: block; width: 100%; margin: 24px 0; background: #000; }
+#project-view .meta, #project-view .back { font: 12px var(--mono); }
+#project-view .back:hover { text-decoration: underline; }
+#project-view pre {
+  margin-top: 24px; padding: 16px; overflow-x: auto;
+  background: #000; color: #fff; font: 13px/1.6 var(--mono);
+}
+

@@ -1,8 +1,55 @@
 <!DOCTYPE html>
+
+<!-- General Initialization Stuff. -->
+
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>memocrime is my name save test</title>
+	<title>memocrime is my old name</title>
 	<link rel="stylesheet" href="style.css">  
 </head>
+	<!--No idea what the data avoid stuff does -->
+<body>
+	<div id="terminal" data-avoid aria-hidden="true"><span id="term-text"></span><span class="cursor"></span></div>
+
+	<a class="name" href="#projects" data-avoid>memocrime</a>
+	<nav id="nav" aria-label="Sections" data-avoid>
+		<a href="#projects">Projects</a>
+		<a href="#about">about me</a>
+		<a href="#contact">contact</a>
+		<a href="#gallery">gallery</a>
+	</nav>
+	
+	<main>
+		<section id="projects" aria-label="Projects"></section>
+
+		<section id="about" aria-label="About" class="page">
+			<h2>About Page</h2>
+			<p>amazing quick test bio to make sure index.html is working properly</p>
+		</section>
+
+		<section id="contact" aria-label="Contact" class="page">
+			<h2>Contact Page</h2>
+			<p>amazing quick test bio to make sure index.html is working properly</p>
+		</section>
+
+		<section id="gallery" aria-label="Gallery" class="page">
+			<h2>Gallery Page</h2>
+			<div class="grid" id="gallery-grid"></div>
+		</section>
+	</main>
+	
+	<!-- Veil that covers the background in a lower opacity to expand the project out -->
+	<div id="veil"></div>
+	
+	<!-- Preview that places the item in the center of the screen and adds a lil opacity fading animation -->
+	<div id="preview"><img alt=""></div>
+
+	<!-- Creates the project view window that is hidden but set to false in the script when in project view -->	
+	<article id="project-view" hidden></article>
+	
+	<!-- Adds in the script.js -->
+	<script src="script.js"></script>
+</body>
+</html>
