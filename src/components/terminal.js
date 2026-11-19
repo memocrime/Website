@@ -1,8 +1,8 @@
 export function startTerminal(out, lines) {
 
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  out.textContent = lines.join('\n'); 
-  return;
+    out.textContent = lines.join('\n'); 
+    return;
   }
 
   const shown = [];
